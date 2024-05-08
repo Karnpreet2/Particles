@@ -1,5 +1,49 @@
 #include "Particle.h"
 
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2, numPoints){
+	m_ttl = TTL;
+	m_numPoints = numPoints;
+	m_radiansPerSec = ((float)rand() / RAND_MAX) * M_PI;
+	m_cartesianPlane.setCenter(0,0);
+
+	m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
+	m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+
+	m_vx = ((float)rand() / RAND_MAX) * 400+100;
+	m_vy =((float)rand() / RAND_MAX) * 400+100;
+
+/*	Uint8 r1 = rand() % 256;
+	Uint8 g1 = rand() % 256;
+	Uint8 b1 = rand() % 256;
+	Color m1(r,g,b);*/
+
+	Uint8 r = rand() % 256;
+	Uint8 g = rand() % 256;
+ 	Uint8 b = rand() % 256;
+	Color m2(r,g,b);
+
+	m_color1 = Color::White;
+	m_color2 = m2;
+
+	double theta = ((float)rand() / RAND_MAX) * (M_PI/2);
+	double dTheta = 2* M_PI / (numPoints -1);
+
+	for (int j=0; j<numPoints; j++){
+		double r= rand() % (80-20+1)+20;
+		dx = r*cos(theta);
+		dy = r*sin(theta);
+		m_A(0,j) = m_centerCoordinate.x +dx;
+		m_A(1,j) = m_centerCoordinate.y +dy;
+		theta += dTheta;
+	}
+}
+
+void Particle::draw(RenderTarget& target, RenderStates states) const{
+	VertexArray lines(TriangleFan, m_numPoints+1);
+
+	Vector2f center = target.mapCoordstoPixel(m_centerCoordinate);
+
+}
 
 bool Particle::almostEqual(double a, double b, double eps)
 {
