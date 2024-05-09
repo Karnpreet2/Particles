@@ -12,9 +12,10 @@ void Engine::run() {
   p.unitTests();
   cout << "Unit tests complete.  Starting engine..." << endl;
 
+  srand(time(0));
   while (m_Window.isOpen()) {
-    
-    float dtAsSeconds = clock.restart().asSeconds();
+    Time time=clock.restart();
+    float dtAsSeconds = time.asSeconds();
 
     input();
     update(dtAsSeconds);
@@ -23,24 +24,26 @@ void Engine::run() {
 }
 
 void Engine::input() {
+  
+  int points=rand() %26+25;
+  
   Event event;
 
   while (m_Window.pollEvent(event)) {
     if (event.type == Event::Closed) {
       m_Window.close();
     }
-    if (event.type == sf::Event::MouseButtonPressed) 
+    if (event.type == Event::MouseButtonPressed) 
     {
-      if (event.mouseButton.button == sf::Mouse::Left) 
+      if (event.mouseButton.button == Mouse::Left) 
       {
         cout << "Left click " << event.mouseButton.x<< event.mouseButton.y<<endl;
 
         for (int i = 0; i < 5; i++) 
         {
-          int points=rand() %26+25;
-          
           m_particles.push_back(Particle(m_Window, points, Vector2i(event.mouseButton.x, event.mouseButton.y)));
-          
+          //Particle particle(m_Window, points, {event.mouseButton.x, event.mouseButton.y});
+          //m_particles.push_back(particle);
         }
       }
     }
