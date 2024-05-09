@@ -6,7 +6,7 @@ Engine::Engine() {
 
 void Engine::run() {
   Clock clock;
-  clock.restart();
+  
   cout << "Starting Particle unit tests..." << endl;
   Particle p(m_Window, 4, {(int)m_Window.getSize().x / 2, (int)m_Window.getSize().y / 2});
   p.unitTests();
@@ -29,10 +29,12 @@ void Engine::input() {
     if (event.type == Event::Closed) {
       m_Window.close();
     }
-    if (event.type == Event::MouseButtonPressed) 
+    if (event.type == sf::Event::MouseButtonPressed) 
     {
-      if (event.mouseButton.button == Mouse::Left) 
+      if (event.mouseButton.button == sf::Mouse::Left) 
       {
+        cout << "Left click " << event.mouseButton.x<< event.mouseButton.y<<endl;
+
         for (int i = 0; i < 5; i++) 
         {
           int points=rand() %26+25;
@@ -63,6 +65,7 @@ void Engine::update(float dtAsSeconds){
 
 void Engine::draw(){
   m_Window.clear();
+  
   for (const auto& particle : m_particles){
     m_Window.draw(particle);
   }

@@ -10,8 +10,8 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 	m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 	m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
 
-	m_vx = ((float)rand() / RAND_MAX) * 400+100;
-	m_vy =((float)rand() / RAND_MAX) * 400+100;
+	m_vx = (rand() / RAND_MAX) * 400+100;
+	m_vy =(rand() / RAND_MAX) * 400+100;
 
 /*	Uint8 r1 = rand() % 256;
 	Uint8 g1 = rand() % 256;
@@ -23,7 +23,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
  	Uint8 b = rand() % 256;
 	Color m2(r,g,b);
 
-	m_color1 = Color::White;
+	m_color1 = {0,0,0};
 	m_color2 = m2;
 
 	double theta = ((float)rand() / RAND_MAX) * (M_PI/2);
@@ -32,8 +32,8 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 	for (int j=0; j<numPoints; j++){
 		double r, dx, dy;
 
-        r= rand() % (80-20+1)+20;
-
+        r= rand() % (80-20)+20;
+        
 		dx = r*cos(theta);
 		dy = r*sin(theta);
 		
