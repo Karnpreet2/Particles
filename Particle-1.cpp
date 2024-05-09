@@ -42,8 +42,54 @@ void Particle::draw(RenderTarget& target, RenderStates states) const{
 	VertexArray lines(TriangleFan, m_numPoints+1);
 
 	Vector2f center = target.mapCoordstoPixel(m_centerCoordinate);
-
+    lines[0].position = center;
+    lines[0].color = m_color1;
+    
+    for (int j = 1; j <= m_numPoints; j++){
+        Vector2f position(target.mapCoordstoPixel(m_cartesianPlane));
+        lines[j].position = position;
+        lines[j].color = m_color2;
+    }
+    target.draw(lines);
 }
+
+void Particle::update(float dt){
+    m_ttl -= dt;
+    rotate(dt * m_radiansPerSec);
+    scale(SCALE);
+
+    float dx = m_vx *dt;
+    
+    m_vy -= (G*dt);
+ 
+    float dy = m_vy *d t;
+    translate(dx,dy);
+    //PROBLEM
+}
+
+void Particle::translate(double xShift, double yShift){
+    TranslationMatrix T(double xShift, double yShift);
+    m_A = T + m_A;
+    m_centerCoordinate.x += xShift;
+    m_centerCoordinate.y += yShift;
+}
+
+void Particle::rotate(double theta){
+    Vector2f temp = m_centerCoordinate;
+    translate(-m_centerCoordinate.x, -m_centerCoordinate.y);
+    RotationMatrix R(theta);
+    m_A = R * m_A;
+    translate(temp.x,temp.y);
+}
+
+void Particle::scale(double c){
+    Vector2f temp = m_centerCoordinate;
+    translate(-m_centerCoordinate.x, -m_centerCoordinate.y);
+    ScalingMatrix S(c);
+    m_A = S*m_A;
+    translate(temp.x, temp.y);
+}
+
 
 bool Particle::almostEqual(double a, double b, double eps)
 {
