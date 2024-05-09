@@ -13,10 +13,12 @@ void Engine::run() {
   cout << "Unit tests complete.  Starting engine..." << endl;
 
   while (m_Window.isOpen()) {
-    float restarter = clock.restart().asSeconds();
-    this->input();
-    this->update(deltaTime);
-    this->draw();
+    
+    float dtAsSeconds = clock.restart().asSeconds();
+
+    input();
+    update(dtAsSeconds);
+    draw();
   }
 }
 

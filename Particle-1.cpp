@@ -1,4 +1,5 @@
 #include "Particle.h"
+#include "Matrices.h"
 
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2, numPoints){
 	m_ttl = TTL;
@@ -29,10 +30,14 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 	double dTheta = 2* M_PI / (numPoints -1);
 
 	for (int j=0; j<numPoints; j++){
-		double r= rand() % (80-20+1)+20;
+		double r, dx, dy;
+
+        r= rand() % (80-20+1)+20;
+
 		dx = r*cos(theta);
 		dy = r*sin(theta);
-		m_A(0,j) = m_centerCoordinate.x +dx;
+		
+        m_A(0,j) = m_centerCoordinate.x +dx;
 		m_A(1,j) = m_centerCoordinate.y +dy;
 		theta += dTheta;
 	}
@@ -41,12 +46,16 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 void Particle::draw(RenderTarget& target, RenderStates states) const{
 	VertexArray lines(TriangleFan, m_numPoints+1);
 
-	Vector2f center = target.mapCoordstoPixel(m_centerCoordinate);
+	Vector2i tempCenter = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+    Vector2f center((float)tempCenter.x,(float)tempCenter.y);
+
     lines[0].position = center;
     lines[0].color = m_color1;
     
     for (int j = 1; j <= m_numPoints; j++){
-        Vector2f position(target.mapCoordstoPixel(m_cartesianPlane));
+        
+        Vector2i tempPosition = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+        Vector2f position((float)tempPosition.x,(float)tempPosition.y);
         lines[j].position = position;
         lines[j].color = m_color2;
     }
@@ -62,16 +71,20 @@ void Particle::update(float dt){
     
     m_vy -= (G*dt);
  
-    float dy = m_vy *d t;
+    float dy = m_vy *dt;
     translate(dx,dy);
     //PROBLEM
 }
 
 void Particle::translate(double xShift, double yShift){
-    TranslationMatrix T(double xShift, double yShift);
+    int nCols= m_A.getCols();
+
+    TranslationMatrix T(xShift, yShift, nCols);
     m_A = T + m_A;
+    
     m_centerCoordinate.x += xShift;
     m_centerCoordinate.y += yShift;
+
 }
 
 void Particle::rotate(double theta){

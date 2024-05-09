@@ -1,6 +1,5 @@
 #include "Matrices.h"
 
-
 namespace Matrices
 {
     ///Add each corresponding element.
@@ -87,10 +86,41 @@ namespace Matrices
         }
         return os;
     }
+
+
+RotationMatrix::RotationMatrix(double theta): Matrix(2,2)
+	{
+		a[0][0] = cos(theta);
+		a[0][1] = -sin(theta);
+		a[1][0] = sin(theta);
+		a[1][1] = cos(theta);
+    }
+ScalingMatrix::ScalingMatrix(double scale): Matrix(2,2)
+    {
+        a[0][0] = scale;
+		a[0][1] = 0;
+		a[1][0] = 0;
+		a[1][1] = scale;
+    }
+
+/*TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols): Matrix(2,nCols)
+    {
+        for (int j=0; j<nCols; j++){
+            a[0][j] = xShift;
+            a[1][j] = yShift;
+        }
+    }*/
+  
+Matrix operator+(const TranslationMatrix& T, const Matrix& b)
+        {
+        Matrix c(b.getRows(), b.getCols());
+
+        for (int i = 0; i < b.getRows(); i++) {
+            for (int j = 0; j < b.getCols(); j++) {
+                c(i, j) = b(i, j) + T(i, j);}
+        }
+        return c;
+    }
+
+
 }
-
-
-
-
-
-
