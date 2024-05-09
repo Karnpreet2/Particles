@@ -1,3 +1,5 @@
+//Karnpreet Klair, Musa Rana
+
 #include "Particle.h"
 #include "Matrices.h"
 
