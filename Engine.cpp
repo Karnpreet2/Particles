@@ -25,7 +25,7 @@ void Engine::run() {
 
 void Engine::input() {
   
-  int points=rand() %26+25;
+  int points=rand() %50+25;
   
   Event event;
 
@@ -37,13 +37,13 @@ void Engine::input() {
     {
       if (event.mouseButton.button == Mouse::Left) 
       {
-        cout << "Left click " << event.mouseButton.x<< event.mouseButton.y<<endl;
+        //cout << "Left click " << event.mouseButton.x << " " << event.mouseButton.y<<endl;
 
-        for (int i = 0; i < 5; i++) 
+        for (int i = 0; i < 1; i++) 
         {
-          m_particles.push_back(Particle(m_Window, points, Vector2i(event.mouseButton.x, event.mouseButton.y)));
-          //Particle particle(m_Window, points, {event.mouseButton.x, event.mouseButton.y});
-          //m_particles.push_back(particle);
+          //m_particles.push_back(Particle(m_Window, points, Vector2i(event.mouseButton.x, event.mouseButton.y)));
+          Particle particle(m_Window, points, {event.mouseButton.x, event.mouseButton.y});
+          m_particles.push_back(particle);
         }
       }
     }
@@ -72,5 +72,6 @@ void Engine::draw(){
   for (const auto& particle : m_particles){
     m_Window.draw(particle);
   }
+
   m_Window.display();
 }

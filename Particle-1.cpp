@@ -47,8 +47,14 @@ void Particle::draw(RenderTarget& target, RenderStates states) const{
 	
     VertexArray lines(TriangleFan, m_numPoints+1);
 
-	Vector2i tempCenter = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+	
+    //This method kinda gives the shape of flowers?
+    Vector2i tempCenter = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
     Vector2f center((float)tempCenter.x,(float)tempCenter.y);
+    
+    /*Vector2f tempCenter = {m_A(0,0), m_A(1,0)};
+    Vector2i tc= target.mapCoordsToPixel(tempCenter,m_cartesianPlane);
+    Vector2f center = Vector2f(tc);*/
 
     lines[0].position = center;
     lines[0].color = m_color1;
