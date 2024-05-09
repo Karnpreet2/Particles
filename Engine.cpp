@@ -46,6 +46,17 @@ void Engine::input() {
           m_particles.push_back(particle);
         }
       }
+      if (event.mouseButton.button == Mouse::Right) 
+      {
+        //cout << "Left click " << event.mouseButton.x << " " << event.mouseButton.y<<endl;
+
+        for (int i = 0; i < 5; i++) 
+        {
+          //m_particles.push_back(Particle(m_Window, points, Vector2i(event.mouseButton.x, event.mouseButton.y)));
+          Particle particle(m_Window, points, {event.mouseButton.x, event.mouseButton.y});
+          m_particles.push_back(particle);
+        }
+      }
     }
   }
 }

@@ -10,18 +10,22 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 	m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 	m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
 
-	m_vx = (rand() / RAND_MAX) * 400+100;
-	m_vy =(rand() / RAND_MAX) * 400+100;
+
+	m_vx = rand() % 400+100;
+    if (rand() %2!=0){
+        m_vx= m_vx*-1;
+    }
+	m_vy =rand() % 400+100;
 
 /*	Uint8 r1 = rand() % 256;
 	Uint8 g1 = rand() % 256;
 	Uint8 b1 = rand() % 256;
 	Color m1(r,g,b);*/
 
-	Uint8 r = rand() % 256;
+	Uint8 red = rand() % 256;
 	Uint8 g = rand() % 256;
  	Uint8 b = rand() % 256;
-	Color m2(r,g,b);
+	Color m2(red,g,b);
 
 	m_color1 = Color::White;
 	m_color2 = m2;
@@ -77,8 +81,13 @@ void Particle::update(float dt){
     float dx = m_vx *dt;
     
     m_vy -= (G*dt);
- 
+     if (m_centerCoordinate.y<=(m_cartesianPlane.getSize().y+540)){
+        m_vy= m_vy*-1;
+        
+    }
+
     float dy = m_vy *dt;
+    
     translate(dx,dy);
     //PROBLEM
 }
